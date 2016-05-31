@@ -31,6 +31,7 @@ def scrape_list(h)
     party = section.css('.mw-headline').text.gsub(/\(\d+\)/,'').tidy
     section.xpath('.//following-sibling::table[1]//tr[.//td[2]]').each do |tr|
       td = tr.css('td')
+      notes = td[4].text.tidy rescue ''
 
       # TODO pick up the start/end dates
       data = { 
@@ -39,14 +40,15 @@ def scrape_list(h)
         party: party,
         area: td[2].text.tidy,
         area_wikiname: td[2].xpath('.//a[not(@class="new")]/@title').text,
-        notes: td[4].text.tidy,
+        notes: notes,
         term: h[:term],
       }
       data[:area] = 'List' if data[:area].to_s.empty?
       ScraperWiki.save_sqlite([:name, :party, :term, :area], data)
-      end
+    end
   end
 end
+
 
 scrape_list({
   source: 'https://en.wikipedia.org/wiki/50th_New_Zealand_Parliament',
@@ -54,3 +56,11 @@ scrape_list({
   after: 'Members',
   before: 'Parliamentary_business',
 })
+
+scrape_list({
+  source: 'https://en.wikipedia.org/wiki/49th_New_Zealand_Parliament',
+  term: 49,
+  after: 'Members_of_the_49th_New_Zealand_Parliament',
+  before: 'By-elections_during_49th_Parliament',
+}) 
+
