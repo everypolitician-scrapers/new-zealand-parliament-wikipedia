@@ -22,10 +22,10 @@ def noko_for(url)
   Nokogiri::HTML(open(url).read) 
 end
 
-def scrape_list(term, url)
-  noko = noko_for(url)
-  noko.css('#Members').xpath('.//preceding::*').remove
-  noko.css('#Parliamentary_business').xpath('.//following::*').remove
+def scrape_list(h)
+  noko = noko_for(h[:source])
+  noko.css('#%s' % h[:after]).xpath('.//preceding::*').remove
+  noko.css('#%s' % h[:before]).xpath('.//following::*').remove
 
   noko.css('h3').each do |section|
     party = section.css('.mw-headline').text.gsub(/\(\d+\)/,'').tidy
@@ -40,7 +40,7 @@ def scrape_list(term, url)
         area: td[2].text.tidy,
         area_wikiname: td[2].xpath('.//a[not(@class="new")]/@title').text,
         notes: td[4].text.tidy,
-        term: term,
+        term: h[:term],
       }
       data[:area] = 'List' if data[:area].to_s.empty?
       ScraperWiki.save_sqlite([:name, :party, :term, :area], data)
@@ -48,4 +48,9 @@ def scrape_list(term, url)
   end
 end
 
-scrape_list(50, 'https://en.wikipedia.org/wiki/50th_New_Zealand_Parliament')
+scrape_list({
+  source: 'https://en.wikipedia.org/wiki/50th_New_Zealand_Parliament',
+  term: 50,
+  after: 'Members',
+  before: 'Parliamentary_business',
+})
