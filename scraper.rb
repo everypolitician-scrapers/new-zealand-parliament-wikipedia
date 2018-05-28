@@ -1,23 +1,14 @@
 #!/bin/env ruby
 # encoding: utf-8
 
-require 'scraperwiki'
+require 'date'
 require 'nokogiri'
-require 'date'
-require 'open-uri'
-require 'date'
-
-require 'colorize'
-require 'date'
 require 'pry'
+require 'scraped'
+require 'scraperwiki'
+
 require 'open-uri/cached'
 OpenURI::Cache.cache_path = '.cache'
-
-class String
-  def tidy
-    self.gsub(/[[:space:]]+/, ' ').strip
-  end
-end
 
 def noko_for(url)
   Nokogiri::HTML(open(url).read)
