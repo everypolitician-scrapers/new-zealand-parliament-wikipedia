@@ -26,6 +26,7 @@ def table_per_party(h)
   noko.css('#%s' % h[:before]).xpath('.//following::*').remove
   noko.css('h3').each do |section|
     party = section.css('.mw-headline').text.gsub(/\(\d+\)/,'').tidy
+    next if party == 'Overview'
     section.xpath('.//following-sibling::table[1]//tr[.//td[2]]').each do |tr|
       td = tr.css('td')
       notes = td[4].text.tidy rescue ''
