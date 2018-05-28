@@ -40,6 +40,7 @@ def table_per_party(h)
         term: h[:term],
       }
       data[:area] = 'List' if data[:area].to_s.empty?
+      puts data.reject { |_, v| v.to_s.empty? }.sort_by { |k, _| k }.to_h if ENV['MORPH_DEBUG']
       ScraperWiki.save_sqlite([:name, :party, :term, :area], data)
     end
   end
@@ -62,6 +63,7 @@ def single_table(h)
       term: h[:term],
     }
     data[:area] = 'List' if data[:area].to_s.downcase.include? 'party list'
+    puts data.reject { |_, v| v.to_s.empty? }.sort_by { |k, _| k }.to_h if ENV['MORPH_DEBUG']
     ScraperWiki.save_sqlite([:name, :party, :term, :area], data)
   end
 end
@@ -84,6 +86,7 @@ def single_table_changes(h)
       term: h[:term],
     }
     next if data[:name].include? '(vacant)'
+    puts data.reject { |_, v| v.to_s.empty? }.sort_by { |k, _| k }.to_h if ENV['MORPH_DEBUG']
     ScraperWiki.save_sqlite([:name, :party, :term, :area], data)
   end
 end
