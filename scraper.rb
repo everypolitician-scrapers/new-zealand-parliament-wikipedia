@@ -92,6 +92,7 @@ def single_table_changes(h)
   end
 end
 
+ScraperWiki.sqliteexecute('DROP TABLE data') rescue nil
 
 table_per_party({
   source: 'https://en.wikipedia.org/wiki/50th_New_Zealand_Parliament',
