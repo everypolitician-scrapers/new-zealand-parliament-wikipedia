@@ -59,7 +59,7 @@ def single_table(h)
       sort_name: td[2].css('span/@data-sort-value').text,
       party: td[1].text.tidy,
       party_wikiname: td[1].xpath('.//a[not(@class="new")]/@title').text,
-      area: td[3].css('a').map(&:text).map(&:tidy).first || tds[3].text.tidy,
+      area: td[3].css('a').map(&:text).map(&:tidy).first || td[3].text.tidy,
       area_wikiname: td[3].xpath('.//a[not(@class="new")]/@title').text,
       term: h[:term],
     }
