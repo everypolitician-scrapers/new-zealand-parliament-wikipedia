@@ -56,7 +56,7 @@ def single_table(h)
     data = {
       name: td[2].css('.vcard').text.tidy,
       wikiname: td[2].xpath('.//a[not(@class="new")]/@title').text,
-      sort_name: td[2].css('.sortkey').text.tidy,
+      sort_name: td[2].css('span/@data-sort-value').text,
       party: td[1].text.tidy,
       party_wikiname: td[1].xpath('.//a[not(@class="new")]/@title').text,
       area: td[3].css('a').map(&:text).map(&:tidy).first || tds[3].text.tidy,
