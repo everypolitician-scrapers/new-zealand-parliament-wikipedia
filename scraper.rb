@@ -81,7 +81,7 @@ def single_table_changes(h)
       wikiname: td[2].xpath('.//a[not(@class="new")]/@title').text,
       party: td[1].text.tidy,
       party_wikiname: td[1].xpath('.//a[not(@class="new")]/@title').text,
-      start_date: td[3].css('.sortkey').text.sub(/^0*/,'').sub('-0000',''),
+      start_date: td[3].css('span/@data-sort-value').text.sub(/^0*/,'').sub('-0000',''),
       area: td[4].text.tidy,
       area_wikiname: td[4].xpath('.//a[not(@class="new")]/@title').text,
       term: h[:term],
